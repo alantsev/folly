@@ -166,11 +166,23 @@ struct ProducerConsumerQueue {
   }
 
 private:
+  static const size_t CACHELINE_SIZE = 64;
+  using padding_t = char [CACHELINE_SIZE];
+
+
+  padding_t pad0;
   const uint32_t size_;
+
+  padding_t pad1;
   T* const records_;
 
+  padding_t pad2;
   std::atomic<unsigned int> readIndex_;
+
+  padding_t pad3;
   std::atomic<unsigned int> writeIndex_;
+
+  padding_t pad4;
 };
 
 }
